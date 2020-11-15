@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="de-DE">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<body>
+  <div id = "chartContainer" style = "height: 450px; width: 100%;" />
+
+  <script type = "text/javascript" src = "canvasjs.min.js" ></script>
+
+  <script type="text/javascript" src="paho-mqtt.js"></script>
+
+  <script type = "text/javascript">
+    var id = new Date().valueOf();
+
+    client = new Paho.MQTT.Client('192.168.1.1', 1884, "web_"+id);
+
+    var id = new Date().valueOf();
+    var dataPoints = [];
+    var updateCount = 0;
+
+  var chart = new CanvasJS.Chart("chartContainer", {
+      title : {
+        text : "Temperatur"
+      },
+      data : [{
+          type : "spline",
+          dataPoints : dataPoints
+        }
+      ]
+    });
+  chart.render()
+
+  client.onConnectionLost = onConnectionLost;
+  client.onMessageArrived = onMessageArrived;
+
+
+  client.connect({
+    onSuccess : onConnect,
+    userName : "mqtt",
+    password : "Thermometercluster"
+  });
+
+
+
+  function onConnect() {
+    client.subscribe("Temperatur/7");
+  }
+
+  function onConnectionLost(responseObject) {
+  }
+
+
+  function onMessageArrived(message) {
+      console.log("onMessageArrived:"+message.payloadString);
+      temp = parseFloat(message.payloadString);
+
+      updateCount++;
+
+      chart.options.title.text = "Die aktuelle Temperatur ist: "+temp;
+
+
+      dataPoints.push({ y : temp });
+
+
+      chart.render();
+  }
+
+
+  </script>
+
+
+</body>
+</html>
