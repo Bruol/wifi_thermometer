@@ -1,0 +1,15 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+    
+        {
+            "type": "gdb",
+            "request": "launch",
+            "cwd": "${workspaceRoot}",
+            "name": "PlatformIO Debugger",
+            "target": "/media/lorin/2EF0C4DB1D2B8659/Projekte/PAPA/171021-143920-nodemcuv2/.pioenvs/nodemcuv2/firmware.elf",
+            "gdbpath": "/home/lorin/.platformio/penv/bin/piodebuggdb",
+            "autorun": [ "source .pioinit" ]
+        }
+    ]
+}
