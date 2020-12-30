@@ -1,6 +1,6 @@
 //Benötigte Libraries imortieren
 #include <Wire.h> //Display
-#include <LiquidCrystal_I2C.h>//Display
+#include <LiquidCrystal_I2C.h>//Display //<LiquidCrystal.h> 
 #include <OneWire.h>//Temperatursensor
 #include <DallasTemperature.h>//Temperatursensor
 #include <ESP8266WiFi.h> //Wifi library für Esp8266
@@ -9,12 +9,12 @@
 const char* ssid = "Thermometer";
 const char* wifi_password = "Thermometercluster";
 // MQTT Einstellungen
-const char* mqtt_server = "192.168.1.1";//Broker ip
-const char* mqtt_topic = "Temperatur/1";//Topic
+const char* mqtt_server = "192.168.101.10";//Broker ip
+const char* mqtt_topic = "Temperatur/3";//Topic
 const char* mqtt_username = "mqtt";//mqtt_username
 const char* mqtt_password = "Thermometercluster";//mqtt_passwort
 // Mqtt Client name
-const char* clientID = "Termometer_1";
+const char* clientID = "Termometer_3";
 //Wlan initialisieren
 WiFiClient wifiClient;
 // Mqtt server initialisieren
@@ -26,13 +26,13 @@ OneWire oneWire(ONE_WIRE_BUS);
 //Hardware bus an Library übergeben
 DallasTemperature sensors(&oneWire);
 // Displayports angeben
-LiquidCrystal_I2C lcd(0x27,20,4);
+LiquidCrystal_I2C lcd(0x3F,20,4);
 
 
 
 void setup() {
   //LCD initialisieren
-  lcd.init();
+  lcd.begin();
   //LCD hintergrundlich anschalten
   lcd.backlight();
   //Cursor nach links oben setzen
